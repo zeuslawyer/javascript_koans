@@ -48,7 +48,6 @@ describe("About Applying What We Have Learnt", function() {
       }
 
       var noNuts = _(products).filter(isNutFree);
-      console.log(noNuts)
       productsICanEat = _(noNuts).filter(isShroomFree);
 
      expect(_(noNuts).all(isNutFree)).toBe(true);
@@ -68,14 +67,19 @@ describe("About Applying What We Have Learnt", function() {
       }
     }
     
-    expect(sum).toBe(FILL_ME_IN);
+    expect(sum).toBe(233168);
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
 
-    var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
+    var sum = _(_.range(1,1000)).chain().reduce(function(accum, num){
+      if (num % 3 === 0 || num % 5 === 0) {
+        accum += num;
+      }
+      return accum;
+    } , 0).value();    /* try chaining range() and reduce() */
 
-    expect(233168).toBe(FILL_ME_IN);
+    expect(233168).toBe(sum);
   });
 
   /*********************************************************************************/
@@ -88,20 +92,28 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
     /* chain() together map(), flatten() and reduce() */
+    var ingredientCount = _(products).chain().map(function(item, index){
+      return item['ingredients']
+    }).flatten().reduce(function(counts, ingred){
+      counts[ingred] = (counts[ingred] || 0) + 1 ;
+      return counts;
+    }, {}).value();
+    console.log(ingredientCount);
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
   /* UNCOMMENT FOR EXTRA CREDIT */
-  /*
+ 
   it("should find the largest prime factor of a composite number", function () {
   
   });
@@ -122,5 +134,7 @@ describe("About Applying What We Have Learnt", function() {
   it("should find the 10001st prime", function () {
 
   });
-  */
+  
+
+
 });
